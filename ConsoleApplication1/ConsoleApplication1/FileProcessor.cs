@@ -141,7 +141,7 @@ namespace ConsoleApplication1
 			}
 			if (dictColoumnOrder.Count() != lstcolumns.Count())
 			{
-				string msg = "Incorrect number of column titles found." + Environment.NewLine + "Expecting : " + lstcolumns.ToString();
+				string msg = "Incorrect number of column found." + Environment.NewLine + "Expecting : " + lstcolumns.ToString();
 				writeError(msg);
 				quit(msg);
 			}
@@ -270,7 +270,7 @@ namespace ConsoleApplication1
 		}
 
 		/// <summary>
-		/// Create a transaction from the source line. All checking of values is already done at this point.
+		/// Create a transaction from the source line. All data validation is already done at this point.
 		/// </summary>
 		/// <param name="line">Source line read from the file</param>
 		/// <returns></returns>
@@ -301,7 +301,7 @@ namespace ConsoleApplication1
 			string[] header = new string[lstcolumns.Count()];
 			foreach (string column in lstcolumns)
 			{
-				header[dictColoumnOrder[column]] = lstcolumns[dictColoumnOrder[column]];
+				header[dictColoumnOrder[column]] = column;
 			}
 			return string.Join(VALUE_SEP.ToString(), header);
 		}
@@ -373,7 +373,7 @@ namespace ConsoleApplication1
 			string[] values = new string[lstcolumns.Count()];
 			foreach (string column in lstcolumns)
 			{
-				values[dictColoumnOrder[column]] = getValueForColumn(item, lstcolumns[dictColoumnOrder[column]]);
+				values[dictColoumnOrder[column]] = getValueForColumn(item, column);
 			}
 			return string.Join(VALUE_SEP.ToString(), values);
 		}
@@ -396,7 +396,7 @@ namespace ConsoleApplication1
 					return item.description;
 
 				case ST_DATE:
-					return item.startDate.ToString("yyyy-MM-DD HH:MM:SS.sss");
+					return item.startDate.ToString("yyyy-MM-dd HH:mm:ss.fff");
 
 				case CAT:
 					return item.category;

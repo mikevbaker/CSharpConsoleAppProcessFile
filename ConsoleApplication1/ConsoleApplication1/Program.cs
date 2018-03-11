@@ -17,58 +17,73 @@ namespace ConsoleApplication1
 		/// <param name="args"></param>
 		static void Main(string[] args)
 		{
-#if DEBUG
-			DateTime startTime = DateTime.Now;
-#endif
-			if (args == null || args.Count() == 0 || !args[0].ToUpper().StartsWith("FILE"))
+			if (checkArgs(args))
 			{
+				try
+				{
+					FileProcessor fileProcessor = new FileProcessor();
+					fileProcessor.processFile(filename, sortByDate, project);
+				}
+				catch (Exception ex)
+				{
+					Console.WriteLine(ex.Message);
+				}
+			}
+			Console.WriteLine("Finished");
+			Console.ReadKey();
+		}
+
+		static bool checkArgs(string[] args)
+		{
+			bool argsOK = true;
+			// verify minimum arguments
+			// ISSUE - Requires File argument to be first even though it could be made to work with at least one 'File' argument
+			if (args == null || args.Count() == 0 || !args[0].ToUpper().StartsWith("FILE"))
+				argsOK = false;
+
+			// get the arguments
+			if (argsOK)
+				argsOK = checkArg(args[0]);
+
+			if (argsOK && args.Count() > 1)
+				argsOK = checkArg(args[1]);
+
+			if (argsOK && args.Count() > 2)
+				argsOK = checkArg(args[2]);
+
+			if (!argsOK)
+			{
+				Console.WriteLine("");
 				Console.WriteLine("ERROR!!");
 				Console.WriteLine("ERROR!!");
 				Console.WriteLine("Usage: ConsoleApplication1.exe file=myfile.txt [SortByStartDate] [Project=1]");
 				Console.WriteLine("");
-				Console.WriteLine("");
-				return;
 			}
 
-			// get the arguments
-			checkArg(args[0]);
-			if (args.Count() > 1)
-				checkArg(args[1]);
-			if (args.Count() > 2)
-				checkArg(args[2]);
-
-			// we could trap for missing filename here but it is checked in FileProcessor
-			try
-			{
-				FileProcessor fileProcessor = new FileProcessor();
-				fileProcessor.processFile(filename, sortByDate, project);
-			} catch (Exception ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
-#if DEBUG
-			DateTime endTime = DateTime.Now;
-			Console.WriteLine("consumed " + (endTime - startTime).Milliseconds);
-			Console.WriteLine("Press enter to close...");
-			Console.ReadLine();
-#endif
+			return argsOK;
 		}
 
 		/// <summary>
 		/// Process an arg and find out what option it specifies
 		/// </summary>
 		/// <param name="value">The argument including the arg name and value</param>
-		static void checkArg(string value)
+		static bool checkArg(string value)
 		{
+			bool result = true;
+
 			if (value.ToUpper().StartsWith("FILE"))
 				filename = getArgVal(value);
 
-			if (value.ToUpper().Equals("SORTBYSTARTDATE"))
+			else if (value.ToUpper().Equals("SORTBYSTARTDATE"))
 				sortByDate = true;
 
-			if (value.ToUpper().StartsWith("PROJECT"))
+			else if (value.ToUpper().StartsWith("PROJECT"))
 				project = getArgVal(value);
 
+			else // none of the args matched so this one is bad
+				result = false;
+
+			return result;
 		}
 
 		static string getArgVal(string arg)

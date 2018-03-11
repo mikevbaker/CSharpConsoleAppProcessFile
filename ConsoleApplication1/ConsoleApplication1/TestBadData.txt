@@ -1,0 +1,10 @@
+# Input file contents are between the two lines marked with stars
+Project	Description	Start date	Category	Responsible	Savings amount	Currency	Complexity
+2	Complexity not in list	2014-01-01 00:00:00.000	Dairy	Daisy Milks	NULL	NULL	Easy
+6	Good line	2012-06-01 00:00:00.000	Office supplies	Clark Kent	4880.199567	EUR	Simple
+3	Date badly formatted	2013-01-AA 00:00:00.000	Dairy	Daisy Milks	141415.942696	EUR	Moderate
+4	Good line	2013-01-01 00:00:00.000	Dairy	Daisy Milks	11689.322459	EUR	Hazardous
+3	Date missing		Dairy	Daisy Milks	141415.942696	EUR	Moderate
+4	Amount not a number	2013-01-01 00:00:00.000	Dairy	Daisy Milks	1ABC.322459	EUR	Hazardous
+5	Good line	2013-04-01 00:00:00.000	Dairy	Clark Kent	NULL	NULL	Moderate
+6	Good line	2012-06-01 00:00:00.000	Office supplies	Clark Kent	4880.199567	EUR	Simple
